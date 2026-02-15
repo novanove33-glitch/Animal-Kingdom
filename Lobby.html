@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal Explorer Pro</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 50px; }
+
+       
+        .animal-box {
+            background: white; /* Box color */
+            width: 350px; padding: 20px;
+            border-radius: 15px; border: 2px solid #ddd;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #animal-list { list-style: none; padding: 0; }
+        #animal-list li {
+            padding: 15px; margin: 10px 0; background: #fff;
+            border: 1px solid #eee; border-radius: 10px; cursor: pointer;
+            transition: 0.3s; font-weight: bold;
+        }
+
+        #animal-list li:hover {
+    background: #2196f3; 
+    color: white;        
+    border-color: #0d47a1;
+    transform: scale(1.05);
+    cursor: pointer;
+    /* Optional: Adding a "glow" eppect */
+    box-shadow: 0 0 15px rgba(33, 150, 243, 0.5);
+    letter-spacing: 2px; 
+}
+
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white; margin: 10% auto; padding: 25px;
+            width: 320px; border-radius: 20px; text-align: center;
+            position: relative; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        #tabImg { width: 100%; height: 180px; object-fit: cover; border-radius: 15px; }
+
+        .sound-btn {
+            background: #4caf50; color: white; border: none;
+            padding: 10px 20px; border-radius: 50px; cursor: pointer;
+            margin: 10px 0; font-weight: bold; width: 100%;
+        }
+        .sound-btn:hover { background: #43a047; }
+        
+        .yt-btn {
+            display: block; background: #ff0000; color: white;
+            text-decoration: none; padding: 10px; border-radius: 8px;
+            margin-top: 10px; font-size: 14px;
+        }
+
+        .close { position: absolute; top: 10px; right: 15px; font-size: 25px; cursor: pointer; }
+
+
+        .side-container {
+    position: fixed;
+    top: 0;
+    width: 600px;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: #000;
+
+}
+
+.left { left: 0; border-right: 3px solid #2196f3; }
+.right { right: 0; border-left: 3px solid #2196f3; }
+
+.side-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease-in, filter 0.6s ease-in;
+}
+
+/* The Flash Overlay */
+.flash-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: white;
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Dramatic Effect Classes */
+.flash-on { opacity: 1; }
+.video-impact { transform: scale(1.2); filter: blur(10px) brightness(2); }
+
+body { padding: 0 260px; }
+
+
+/*Background*/
+body {
+    
+    background-image: url('Wallpaper.avif'); 
+    
+    
+    background-size: cover; 
+    
+    
+    background-attachment: fixed; 
+    
+    
+    background-position: center; 
+    
+    
+    background-repeat: no-repeat; 
+    
+    
+    background-color: #001a33; 
+
+    
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+    
+background-size: 30%;     
+background-size: 600px;   
+background-size: 50% 100%; 
+}
+
+        
+    </style>
+
+
+
+
+
+
+</head>
+<body>
+
+<div class="animal-box">
+    <h2 style="text-align: center;">🐾 Pick an Animal</h2>
+    <ul id="animal-list">
+        
+        <li onclick="openTab(
+            'Lion', 
+            'The King of Cats.', 
+            'Lions can roar up to 5 miles away!', 
+            'https://www.youtube.com/results?search_query=lion+documentary', 
+            'Lion.avif', 
+            'dffdv-tiger-roar-loudly-193229.mp3'
+        )">🦁 Lion</li>
+        
+        <li onclick="openTab(
+            'Tiger', 
+            'The largest of the big cats, these solitary hunters are easily recognized by their bold black stripes on orange fur.', 
+            'Unlike most house cats, tigers are excellent swimmers and actually enjoy the water. Their skin is also striped beneath their fur, so even if you shaved a tiger, its pattern would still be visible.', 
+            'https://www.youtube.com/results?search_query=tiger+documentary', 
+            'Snow Tiger.avif', 
+            'dffdv-tiger-attack-195840.mp3'
+        )">🐯 Tiger</li>
+        
+        <li onclick="openTab(
+            'Alligator', 
+            'These powerful, freshwater reptiles are armored survivors that have remained largely unchanged for millions of years..', 
+            'You can tell them apart from crocodiles by their snout; alligators have a wider, U-shaped nose. They also have a &quot;sixth sense&quot;  via tiny black dots on their jaws that detect pressure changes in the water.', 
+            'https://www.youtube.com/results?search_query=alligator+documentary', 
+            'Aligator.webp', 
+            'dragon-studio-crocodile-hissing-372480.mp3'
+        )">Alligator</li>
+
+<li onclick="openTab(
+    'Eagle', 
+    'These majestic birds of prey are known for their incredible eyesight and powerful, soaring flight.', 
+    'An eagle\'s eye is roughly the same size as a human\'s, but it can see about four to eight times farther. Their nests, called eyries, can weigh as much as a small car after years of additions.', 
+    'https://www.youtube.com/results?search_query=Eagle+documentary', 
+    'Eagle.webp', 
+    'koiroylers-eagle-355831.mp3'
+)">Eagle</li>
+
+
+<li onclick="openTab(
+            'Deer', 
+            'These graceful herbivores are found across various habitats and are famous for the antlers grown by the males.', 
+            'Deer are surprisingly good swimmers and have been known to cross large lakes to escape predators. Most species lack a gallbladder, which allows them to digest a wide variety of vegetation quickly.', 
+            'https://www.youtube.com/results?search_query=Deer+documentary', 
+            'Deer.avif', 
+            'hari0127sound-deer-wild-animal-roar-sounnd-mks0127-378527.mp3'
+        )">Deer</li>
+
+
+
+<li onclick="openTab(
+            'Snake', 
+            'These legless, carnivorous reptiles move with a unique slither and inhabit almost every continent on Earth.', 
+            'Snakes don\'t have eyelids; instead, they have a transparent scale called a &quot;brille&quot; that protects their eyes. They use their tongues to &quot;smell&quot; the air by picking up scent particles and delivering them to a special organ in the roof of their mouth.', 
+            'https://www.youtube.com/results?search_query=snake+documentary', 
+            'SNake.avif', 
+            'freesound_community-snake-hissing-6092.mp3'
+        )">Snake</li>
+
+
+
+
+
+
+<li onclick="openTab(
+            'Flammingo', 
+            'These tall, wading birds are instantly recognizable for their bright pink feathers and habit of standing on one leg.',
+            'They aren\'t born pink; they are actually gray, and their color comes from carotenoid pigments in the algae and shrimp they eat. They also eat with their heads upside down to filter food from the water.', 
+            'https://www.youtube.com/results?search_query=flamingo+documentary',
+            'Flamingo.avif', 
+            'rzalmanialmani-gadwall-duck-and-teal-duck-sound-12538.mp3'
+        )">Flammingo</li>
+
+
+
+<li onclick="openTab(
+            'Fox', 
+            'These clever, bushy-tailed members of the dog family are known for their adaptability and &quot;sly&quot; reputation.', 
+            'Foxes are the only members of the dog family that can retract their claws like cats. They also use the Earth’s magnetic field to hunt, pouncing on prey hidden under deep snow with high accuracy.', 
+            'https://www.youtube.com/results?search_query=fox+documentary', 
+            'Snow Fox.avif', 
+            'l3hrja-fox-calling-243999.mp3'
+        )">Fox</li>
+
+<li onclick="openTab(
+    'Humming Bird', 
+    'The Social Hunter.', 
+    'Wolves communicate via body language.', 
+    'https://www.youtube.com/results?search_query=hummingbird+documentary', 
+    'HUmming bird.avif', 
+    'semara_media-bird-sound-383350.mp3'
+)">Humming Bird</li>
+
+<li onclick="openTab(
+            'Marmot', 
+            'These large, social ground squirrels are often found in mountainous regions and are famous for their loud, whistling alarms.',
+            'Marmots spend up to eight months of the year in deep hibernation, during which their heart rate drops to just a few beats per minute. They are often nicknamed &quot;whistle pigs&quot; because of the high-pitched sounds they use to warn the colony of danger.',
+            'https://www.youtube.com/results?search_query=marmot+documentary', 
+            'Marmot.avif', 
+            'marmot.mp3'
+        )">Marmot</li>
+
+<li onclick="openTab(
+    'Parrot', 
+    'Highly intelligent and colorful, these birds are famous for their ability to mimic human speech and use tools.', 
+    'Some species, like the Kakapo, cannot fly, while others can live for over 80 years. They are also one of the few bird groups that can use their feet to pick up food and bring it to their mouths.', 
+    'https://www.youtube.com/results?search_query=Parrot+documentary', 
+    'Parrot.avif', 
+    'the-vampires-monster-parrot-children-singing-1-319100.mp3'
+)">Parrot</li>
+
+<li onclick="openTab(
+            'Raccoon', 
+            'Known as &quot;masked bandits&quot;, these nocturnal mammals are famous for their dexterous front paws and scavenging skills.', 
+            'They have five times more sensory cells in their paws than humans do, allowing them to &quot;see&quot; with their touch. They often appear to &quot;wash&quot; their food, but they are actually just wetting their paws to increase their tactile sensitivity.', 
+            'https://www.youtube.com/results?search_query=Raccoon+documentary', 
+            'Racoon.avif', 
+            'freesound_community-180530-raccoons-scream-growl-bark-whine-falls-out-of-tree-2am-toronto-22865.mp3'
+        )">Raccoon</li>
+
+
+
+
+<li onclick="openTab(
+    'Squirell', 
+    'These energetic rodents are master climbers known for gathering and burying nuts to prepare for winter.', 
+    'Squirrels are responsible for planting thousands of new trees every year because they often forget where they buried their acorns. Their front teeth never stop growing, so they must constantly gnaw on things to keep them worn down.', 
+    'https://www.youtube.com/results?search_query=Squirrel+documentary', 
+    'Squirell.webp', 
+    'freesound_community-double-squeak-2-103875.mp3'
+)">Squirell</li>
+
+
+
+        </ul>
+</div>
+
+<div id="miniTab" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeTab()">&times;</span>
+        <img id="tabImg" src="">
+        <h2 id="tabTitle"></h2>
+        <p id="tabDesc" style="color: #666; font-style: italic;"></p>
+        
+        <button class="sound-btn" onclick="playAnimalSound()">🔊 Play Animal Sound</button>
+        
+        <p style="font-size: 14px; text-align: left;"><strong>Trivia:</strong> <span id="tabTrivia"></span></p>
+        
+        <a id="tabLink" class="yt-btn" href="#" target="_blank">Watch Documentary</a>
+    </div>
+</div>
+
+<audio id="animalAudio"></audio>
+
+<script>
+    
+    let currentAudioSource = "";
+
+    function openTab(name, desc, trivia, ytLink, imgUrl, audioUrl) {
+        document.getElementById('tabTitle').innerText = name;
+        document.getElementById('tabDesc').innerText = desc;
+        document.getElementById('tabTrivia').innerText = trivia;
+        document.getElementById('tabImg').src = imgUrl;
+        document.getElementById('tabLink').href = ytLink;
+        
+        currentAudioSource = audioUrl;
+        
+        document.getElementById('miniTab').style.display = "block";
+    }
+
+    function playAnimalSound() {
+        let audioPlayer = document.getElementById('animalAudio');
+        
+        audioPlayer.src = currentAudioSource;
+        audioPlayer.play();
+    }
+
+    function closeTab() {
+        document.getElementById('miniTab').style.display = "none";
+        document.getElementById('animalAudio').pause(); 
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('miniTab')) closeTab();
+    }
+</script>
+
+
+<a href="Home.html" class="fixed-back-button">
+    <span>←</span> GO BACK TO LOBBY
+</a>
+<style>
+    .fixed-back-button {
+    position: fixed;     
+    bottom: 20px;        
+    left: 20px;          
+    
+    background: #222;    
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1000;       
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.fixed-back-button:hover {
+    background: #2196f3;      
+    transform: scale(1.1);    
+    box-shadow: 0 0 20px rgba(33, 150, 243, 0.6);
+    letter-spacing: 1px;
+}
+
+
+</style>
+
+<div class="side-container left">
+    <div id="flashLeft" class="flash-overlay"></div>
+    <video id="videoLeft" class="side-video" autoplay muted playsinline></video>
+</div>
+
+<div class="side-container right">
+    <div id="flashRight" class="flash-overlay"></div>
+    <video id="videoRight" class="side-video" autoplay muted playsinline></video>
+</div>
+
+<script>
+   
+const animalVideos = ['27400-363524230_medium.mp4', '81661-576083145_medium.mp4', '107839-678526726_medium.mp4', '109017-683077126_medium.mp4','110806-689510455_medium.mp4','111244-690770621_medium.mp4','115176-703930484_medium.mp4','127475-743515470_medium.mp4','145320-786403437_medium.mp4','150874-799327601_medium.mp4','219862_medium.mp4','265271_medium.mp4'];
+
+function playWithDrama(playerId, flashId, startIndex) {
+    const video = document.getElementById(playerId);
+    const flash = document.getElementById(flashId);
+    let currentIndex = startIndex;
+
+    
+    video.src = animalVideos[currentIndex];
+
+    video.onended = function() {
+       
+        flash.classList.add('flash-on');
+        video.classList.add('video-impact');
+
+        
+        setTimeout(() => {
+            currentIndex = (currentIndex + 1) % animalVideos.length;
+            video.src = animalVideos[currentIndex];
+            video.load();
+            video.play();
+
+            
+            setTimeout(() => {
+                flash.classList.remove('flash-on');
+                video.classList.remove('video-impact');
+            }, 150); 
+            
+        }, 300); 
+    };
+}
+
+
+playWithDrama('videoLeft', 'flashLeft', 0);
+playWithDrama('videoRight', 'flashRight', 2);
+</script>
+
+</body>
+</html>
+

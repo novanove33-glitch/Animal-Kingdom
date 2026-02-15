@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* This CSS ensures the background looks good and transitions smoothly */
+        
+        
+        body {
+    margin: 0;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; /* Prevents tiling artifacts */
+    transition: background-image 1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: sans-serif;
+    
+    /* Helps maintain sharpness on high-res displays */
+    background-attachment: fixed; 
+
+    
+
+}
+
+.boxed-title {
+    /* 1. The "Square" Box */
+    background-color: rgb(0, 60, 255); /* Solid black or slightly transparent */
+    border: 8px solid white;             /* Thick border for the "box" look */
+    font-size: 5rem;       /* Increased from 3rem to 5rem */
+    font-weight: 900;      /* Keeps it thick */
+    width: auto;           /* Change to 'auto' so the box grows with the text */
+    padding: 40px 80px;    /* Adds space around your bigger letters */
+    white-space: nowrap;
+    
+    /* 2. The Thick Font */
+    width: 700px;        /* Increased to fit the words */
+    height: 200px;       /* Adjusted to keep a nice rectangular/square shape */
+    white-space: nowrap;                   /* Extra Bold/Thick */
+    text-transform: uppercase;           /* Makes it look more geometric */
+    letter-spacing: 2px;
+    
+    /* 3. Centering the text inside the square */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 400px;  
+    
+    /* Resets default H1 margins */
+}
+
+/* 1. The Default Look */
+.play-button {
+    background-color: #0529f7;    /* Base color */
+    color: white;               /* Text color */
+    padding: 20px 50px;         /* Space inside the box (Box Model) */
+    border: 4px solid white;    /* Thick border */
+    font-weight: 900;           /* Thick font */
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease;  /* This makes the "highlight" smooth */
+    cursor: pointer;            /* Shows the hand icon when hovering */
+}
+
+/* 2. The Link Reset */
+.play-link {
+    text-decoration: none;      /* Removes the blue underline from the link */
+    margin-top: -350px;           /* Distance from the title above it */
+}
+
+/* 3. The Highlight (Sensor) Effect */
+.play-button:hover {
+    background-color: white;    /* Swaps background to white */
+    color: black;               /* Swaps text to black */
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.8); /* Adds a glowing highlight */
+    transform: scale(1.1);      /* Makes the button grow slightly */
+}
+
+body {
+    /* ... your current code ... */
+    flex-direction: column; /* Stacks everything vertically */
+}
+
+.credits {
+    position: fixed;       /* Pins it to the screen */
+    bottom: 20px;          /* Distance from the bottom edge */
+    right: 260px;           /* Distance from the right edge */
+    
+    /* Styling */
+    color: rgba(255, 255, 255, 0.7); /* White with 70% transparency */
+    font-size: 0.9rem;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    
+    /* Background (Optional: makes it readable on any animal photo) */
+    background-color: rgba(0, 68, 255, 0.5); 
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.credits2 {
+    position: fixed;       /* Pins it to the screen */
+    bottom: 20px;          /* Distance from the bottom edge */
+    right: 20px;           /* Distance from the right edge */
+    
+    /* Styling */
+    color: rgba(255, 255, 255, 0.7); /* White with 70% transparency */
+    font-size: 0.9rem;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    
+    /* Background (Optional: makes it readable on any animal photo) */
+    background-color: rgb(47, 11, 248); 
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+
+
+    </style>
+</head>
+<body id="bg-target">
+
+    .
+
+    
+    <h1 class="boxed-title">ANIMAL KINGDOM</h1>
+
+    <a href="Lobby.html" target="_blank" class="play-link">
+        <div class="play-button">LET'S GET STARTED</div>
+    </a>
+
+    <a href="https://www.facebook.com/novenmark.ando" target="_blank" class="credits">
+        Created by Noven Mark Ando
+    </a>
+
+    <a href="https://www.facebook.com/Astrokiddos" target="_blank" class="credits2">
+        and Mark lawrence Aro
+    </a>
+
+
+    <script>
+        // 1. Define your images (make sure these filenames are correct!)
+        let images = ['Fox.avif', 'Aligator.webp', 'Deer.avif','Eagle.webp','Flamingo.avif','HUmming bird.avif','Marmot.avif','Parrot.avif','Racoon.avif','SNake.avif','Snow Fox.avif','Squirell.webp','Tiger.avif','Turtle.avif','WOlf.avif'];
+        let index = 0;
+
+        // 2. Set the initial background so it's not empty at the start
+        document.body.style.backgroundImage = `url('${images[0]}')`;
+
+        function rotateBackground() {
+            // 3. Move to the next image
+            index = (index + 1) % images.length; 
+            
+            // 4. Apply it to the body
+            document.body.style.backgroundImage = `url('${images[index]}')`;
+        }
+
+        // 5. Run the function every 5000ms
+        setInterval(rotateBackground, 5000);
+    </script>
+    
+</body>
+</html>
